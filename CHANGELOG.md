@@ -1,0 +1,16 @@
+# 1.0.0-dev.1 (2022-01-04)
+
+
+* Merge branch 'fibserv-02' into 'dev' ([300bc98](https://gitlab.com/PrzemyslawRodzik/fibService/commit/300bc9884a30086fdc186251c8e880355bf76064))
+
+
+### Features
+
+* first release version ([2d91b05](https://gitlab.com/PrzemyslawRodzik/fibService/commit/2d91b059bb73c26dae7264d8741b45fc5855e7b4))
+
+
+### BREAKING CHANGES
+
+* first release version
+
+See merge request PrzemyslawRodzik/fibService!2
