@@ -6,8 +6,6 @@
       "prerelease": true
     }
   ],
-  "dryRun": true,
-  "ci": false,
   "tagFormat": "v${version}",
   "plugins": [
     "@semantic-release/commit-analyzer",
