@@ -1,0 +1,37 @@
+stages:
+  - unitTest
+  - release
+  # - build_dev
+  # - build_pub
+  # - compose_update
+
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID # Execute jobs in merge request context
+    - if: $CI_COMMIT_BRANCH == 'master' # Execute jobs when a new commit is pushed to master branch
+    - if: $CI_COMMIT_BRANCH == 'dev' # Execute jobs when a new commit is pushed to dev branch
+
+unitTest:
+  image: node:14
+  stage: unitTest
+  script:
+    - echo "Testing App"
+    - cd client
+    - npm i
+    - CI=true npm test --passWithNoTests
+    - echo "Test successfully!"
+  only:
+    - master
+    - dev
+
+release:
+  except:
+    - schedules
+  image: node:14
+  stage: release
+  script:
+    - npm i
+    - npx semantic-release
+  only:
+    - master
+    - dev
