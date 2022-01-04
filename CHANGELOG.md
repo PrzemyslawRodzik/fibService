@@ -1,3 +1,10 @@
+# [1.0.0-dev.2](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2022-01-04)
+
+
+### Features
+
+* add install dependencies with caching stage to pipeline ([31d28e2](https://gitlab.com/PrzemyslawRodzik/fibService/commit/31d28e203e89c6e70f8d5ed0c805c772977c1977))
+
 # 1.0.0-dev.1 (2022-01-04)
 
 
