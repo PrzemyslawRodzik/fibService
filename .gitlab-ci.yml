@@ -66,6 +66,8 @@ build_pub:
     - schedules
   image: docker:20-git
   stage: build_pub
+  services:
+    - docker:19.03.12-dind
   variables:
     IMAGE_REPO: przemr/fibservice
   script:
@@ -95,6 +97,8 @@ build_pub:
     - schedules
   image: docker:20-git
   stage: compose_update
+  services:
+    - docker:19.03.12-dind
   before_script:
     - *ssh-setup
   script:
