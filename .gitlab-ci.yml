@@ -1,15 +1,40 @@
 stages:
+  - installDependencies
   - unitTest
   - release
-  # - build_dev
-  # - build_pub
-  # - compose_update
+  - build_pub
+  - compose_update
 
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_ID # Execute jobs in merge request context
     - if: $CI_COMMIT_BRANCH == 'master' # Execute jobs when a new commit is pushed to master branch
     - if: $CI_COMMIT_BRANCH == 'dev' # Execute jobs when a new commit is pushed to dev branch
+
+# to cache both npm modules we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  COMPOSE_SERVER: $COMPOSE_SERVER_IP
+  COMPOSE_SERVER_USER: $COMPOSE_SERVER_USER
+
+# cache using branch name
+# https://gitlab.com/help/ci/caching/index.md
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm
+    - node_modules
+
+# this job installs NPM dependencies
+installDependencies:
+  image: node:14
+  stage: installDependencies
+  script:
+    - npm i
+  only:
+    - master
+    - dev
 
 unitTest:
   image: node:14
@@ -35,3 +60,49 @@ release:
   only:
     - master
     - dev
+
+build_pub:
+  except:
+    - schedules
+  image: docker:20-git
+  stage: build_pub
+  variables:
+    IMAGE_REPO: przemr/fibservice
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin
+    - docker build -t $IMAGE_REPO:fib-client ./client
+    - docker build -t $IMAGE_REPO:fib-nginx ./nginx
+    - docker build -t $IMAGE_REPO:fib-server ./server
+    - docker build -t $IMAGE_REPO:fib-worker ./worker
+    - docker push $IMAGE_REPO:fib-client
+    - docker push $IMAGE_REPO:fib-nginx
+    - docker push $IMAGE_REPO:fib-server
+    - docker push $IMAGE_REPO:fib-worker
+  only:
+    - master
+
+.ssh-setup-template: &ssh-setup
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - ssh-keyscan ${COMPOSE_SERVER} > ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+
+.ssh-compose-update-template: &ssh-compose-update
+  - ssh ${COMPOSE_SERVER_USER}@${COMPOSE_SERVER} "cd ~/docker; echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin; docker-compose -f $COMPOSE_FILE down; docker-compose -f $COMPOSE_FILE pull && docker-compose -f $COMPOSE_FILE up -d"
+
+.compose-update-settings-template: &compose-update-settings
+  except:
+    - schedules
+  image: docker:20-git
+  stage: compose_update
+  before_script:
+    - *ssh-setup
+  script:
+    - *ssh-compose-update
+
+compose_publish:
+  variables:
+    COMPOSE_FILE: docker-compose.yml
+  <<: *compose-update-settings
+  only:
+    - master

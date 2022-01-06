@@ -1,6 +1,6 @@
 {
   "name": "fibservice",
-  "version": "1.0.0",
+  "version": "1.0.0-dev.3",
   "private": true,
   "repository": "https://gitlab.com/PrzemyslawRodzik/fibService",
   "scripts": {},

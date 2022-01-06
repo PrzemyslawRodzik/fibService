@@ -37,10 +37,6 @@ class Fib extends Component {
   renderSeenIndexes() {
     return this.state.seenIndexes.map(({ number }) => number).join(", ");
   }
-
-  showHistory() {
-    return;
-  }
   renderValues() {
     const entries = [];
 
@@ -67,13 +63,7 @@ class Fib extends Component {
           <button>Submit</button>
         </form>
         <br />
-        <button
-          onClick={() => {
-            setShowHistory(true);
-          }}
-        >
-          Historia
-        </button>
+        <button>Historia</button>
         <h3>Indexes I have seen:</h3>
         {this.renderSeenIndexes()}
         <h3>Calculated Values:</h3>
