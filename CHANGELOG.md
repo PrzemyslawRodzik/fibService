@@ -1,3 +1,10 @@
+## [1.0.1](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.0...v1.0.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* fix docker error in build pipeline ([2d1013d](https://gitlab.com/PrzemyslawRodzik/fibService/commit/2d1013d4e1efe9667e232a72ecbe148749c105c8))
+
 # 1.0.0 (2022-01-06)
 
 
