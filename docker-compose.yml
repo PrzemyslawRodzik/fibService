@@ -3,7 +3,7 @@ services:
   postgres:
     image: "postgres:14"
     environment:
-      - POSTGRES_PASSWORD=$PGPASSWORD
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
   redis:
     image: "redis:6.0"
   client:
