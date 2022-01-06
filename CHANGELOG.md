@@ -1,3 +1,10 @@
+# [1.0.0-dev.3](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2022-01-06)
+
+
+### Features
+
+* minor fixes + update gitlab pipeline for deploy ([0c03a89](https://gitlab.com/PrzemyslawRodzik/fibService/commit/0c03a89cb49a54dd7603ab5fd22a0851466b4acf))
+
 # [1.0.0-dev.2](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2022-01-04)
 
 
