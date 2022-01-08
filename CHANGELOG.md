@@ -1,3 +1,10 @@
+# [1.2.0](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.1.0...v1.2.0) (2022-01-08)
+
+
+### Features
+
+* readme update ([bc7bed9](https://gitlab.com/PrzemyslawRodzik/fibService/commit/bc7bed97e26db739b5e407f993c9d7b253727359))
+
 # [1.1.0](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.1...v1.1.0) (2022-01-08)
 
 
