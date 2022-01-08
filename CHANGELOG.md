@@ -1,3 +1,10 @@
+## [1.2.1](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.2.0...v1.2.1) (2022-01-08)
+
+
+### Bug Fixes
+
+* minor changes in gitlab pipeline file and readme ([b1fd19f](https://gitlab.com/PrzemyslawRodzik/fibService/commit/b1fd19f62fc4eb5aeaf22b5665fe11aa9f489f6b))
+
 # [1.2.0](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.1.0...v1.2.0) (2022-01-08)
 
 
