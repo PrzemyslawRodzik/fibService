@@ -1,3 +1,10 @@
+# [1.1.0](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.1...v1.1.0) (2022-01-08)
+
+
+### Features
+
+* add readme, clean gitlab.yml, docker-compose.yml and add auto fetch on submit click ([399ec40](https://gitlab.com/PrzemyslawRodzik/fibService/commit/399ec409d617992cd5a9456ffc93982184f5df84))
+
 ## [1.0.1](https://gitlab.com/PrzemyslawRodzik/fibService/compare/v1.0.0...v1.0.1) (2022-01-06)
 
 
