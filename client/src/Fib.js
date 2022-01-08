@@ -6,12 +6,8 @@ class Fib extends Component {
     seenIndexes: [],
     values: {},
     index: "",
+    historyOpen: false,
   };
-
-  componentDidMount() {
-    this.fetchValues();
-    this.fetchIndexes();
-  }
 
   async fetchValues() {
     const values = await axios.get("/api/values/current");
@@ -32,6 +28,12 @@ class Fib extends Component {
       index: this.state.index,
     });
     this.setState({ index: "" });
+    new Promise(() => {
+      setTimeout(() => {
+        this.fetchIndexes();
+        this.fetchValues();
+      }, 1000);
+    });
   };
 
   renderSeenIndexes() {
@@ -39,7 +41,6 @@ class Fib extends Component {
   }
   renderValues() {
     const entries = [];
-
     for (let key in this.state.values) {
       entries.push(
         <div key={key}>
@@ -63,11 +64,34 @@ class Fib extends Component {
           <button>Submit</button>
         </form>
         <br />
-        <button>Historia</button>
-        <h3>Indexes I have seen:</h3>
-        {this.renderSeenIndexes()}
-        <h3>Calculated Values:</h3>
-        {this.renderValues()}
+        {/* <h3>
+          For k={this.state.index} i calculated value:{" "}
+          {this.state.values[this.state.index] !== undefined
+            ? this.state.values[this.state.index]
+            : ""}
+        </h3> */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            this.setState({ historyOpen: !this.state.historyOpen });
+            this.fetchValues();
+            this.fetchIndexes();
+          }}
+        >
+          Historia
+        </button>
+        {this.state.historyOpen === true ? <h3>Seen indexes:</h3> : <h3></h3>}
+        {this.state.historyOpen === true ? (
+          this.renderSeenIndexes()
+        ) : (
+          <div></div>
+        )}
+        {this.state.historyOpen === true ? (
+          <h3>Calculated values:</h3>
+        ) : (
+          <h3></h3>
+        )}
+        {this.state.historyOpen === true ? this.renderValues() : <div></div>}
       </div>
     );
   }

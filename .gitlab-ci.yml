@@ -1,6 +1,5 @@
 stages:
-  - installDependencies
-  - unitTest
+  - unitTests
   - release
   - build_pub
   - compose_update
@@ -11,40 +10,17 @@ workflow:
     - if: $CI_COMMIT_BRANCH == 'master' # Execute jobs when a new commit is pushed to master branch
     - if: $CI_COMMIT_BRANCH == 'dev' # Execute jobs when a new commit is pushed to dev branch
 
-# to cache both npm modules we use environment variables
-# to point at the folders we can list as paths in "cache" job settings
 variables:
-  npm_config_cache: "$CI_PROJECT_DIR/.npm"
   COMPOSE_SERVER: $COMPOSE_SERVER_IP
   COMPOSE_SERVER_USER: $COMPOSE_SERVER_USER
 
-# cache using branch name
-# https://gitlab.com/help/ci/caching/index.md
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .npm
-    - node_modules
-
-# this job installs NPM dependencies
-installDependencies:
+unitTests:
   image: node:14
-  stage: installDependencies
+  stage: unitTests
   script:
-    - npm i
-  only:
-    - master
-    - dev
-
-unitTest:
-  image: node:14
-  stage: unitTest
-  script:
-    - echo "Testing App"
     - cd client
     - npm i
     - CI=true npm test --passWithNoTests
-    - echo "Test successfully!"
   only:
     - master
     - dev
@@ -83,16 +59,16 @@ build_pub:
   only:
     - master
 
-.ssh-setup-template: &ssh-setup
+.ssh-connect-tpe: &ssh-connect
   - mkdir -p ~/.ssh && chmod 700 ~/.ssh
   - ssh-keyscan ${COMPOSE_SERVER} > ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | ssh-add -
 
-.ssh-compose-update-template: &ssh-compose-update
+.ssh-compose-update-tpe: &ssh-compose-update
   - ssh ${COMPOSE_SERVER_USER}@${COMPOSE_SERVER} "cd ~/docker; echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin; docker-compose -f $COMPOSE_FILE down; docker-compose -f $COMPOSE_FILE pull && docker-compose -f $COMPOSE_FILE up -d"
 
-.compose-update-settings-template: &compose-update-settings
+.compose-update-settings-tpe: &compose-update-settings
   except:
     - schedules
   image: docker:20-git
@@ -100,7 +76,7 @@ build_pub:
   services:
     - docker:19.03.12-dind
   before_script:
-    - *ssh-setup
+    - *ssh-connect
   script:
     - *ssh-compose-update
 
