@@ -19,14 +19,14 @@ Adres do strony -> [link](http://129.159.252.127/).
   - sklonować repo
   - wpisać komendę
   - ```
-      docker-compose -f docker-compose.dev.yml up -d
+      docker compose -f docker-compose.dev.yml up -d
     ```
 - wersji produkcyjnej należy:
   - sklonować repo
   - w pliku docker-compose.yml uzupełnić zmienne środowiskowe( domyślne wartości znajdują się w pliku docker-compose.dev.yml)
   - wpisać komendę
   - ```
-      docker-compose up -d
+      docker compose up -d
     ```
 
 ---
